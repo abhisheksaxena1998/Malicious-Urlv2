@@ -42,8 +42,8 @@ def home(request):
     return render(request,'home.html')
 
 def result(request):
-    #nm=request.GET['url']
-    try:
+        #nm=request.GET['url']
+    
         text=request.GET['url']
         if text.startswith('https://') or text.startswith('http://'):
 
@@ -195,7 +195,6 @@ def result(request):
                 'dom':dom})
         else:
             return render(request,'errorpage.html')  
-    except:
-        return render(request,'errorpage.html')          
+            
 def about(request):
     return render(request,'about.html')    
