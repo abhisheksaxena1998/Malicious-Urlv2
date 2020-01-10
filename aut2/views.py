@@ -150,8 +150,51 @@ def result(request):
             final_entity = { "predicted_argument": [int(arg[0])]}
             # directly called encode method of JSON
             print (JSONEncoder().encode(final_entity)) 
+            import whois
+            url="http://ord-amazsn.com"
+            res=whois.whois(url)
+            #print (res)
+            try:
+                name=res["name"]
+                print (res["name"])
+                org=res['org']
+                print (res['org'])
+                add=res['address']
+                print (res['address'])
+                city=res['city']
+                print (res['city'])
+                state=res['state']
+                print (res['state'])
+                zip=res['zipcode']
+                print (res['zipcode'])
+                country=res['country']
+                print (res['country'])
+            except:
+                name="Not Found"
+                org="Not Found"
+                add="Not Found"
+                city="Not Found"
+                state="Not Found"
+                zip="Not Found"
+                country="Not Found"
+            try: 
+                emails=res["emails"][0]   
+                print (res["emails"][0])
+                dom=res['domain_name']
+                print (res['domain_name'])
+            except:
+                emails="Not Found"   
+                dom="Not Found"
+
                 
-            return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text})
+            return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':name,
+                'org':org,
+                'add':add,
+                'city':city,
+                'state':state,
+                'zip':zip,
+                'country':country,'emails':emails,
+                'dom':dom})
         else:
             return render(request,'errorpage.html')  
     except:
