@@ -93,8 +93,8 @@ pyparsing==2.4.5
 pyrsistent==0.15.5
 python-dateutil==2.8.0
 python-docx==0.8.10
-pytz==2019.3
 python-whois==0.7.2
+pytz==2019.3
 pywinpty==0.5.5
 pyzmq==18.1.1
 qtconsole==4.5.5
@@ -134,7 +134,6 @@ webencodings==0.5.1
 websocket-client==0.56.0
 Werkzeug==0.16.0
 whitenoise==3.3.0
-whois==0.9.5
 widgetsnbextension==3.5.1
 wordcloud==1.5.0
 wrapt==1.11.2
