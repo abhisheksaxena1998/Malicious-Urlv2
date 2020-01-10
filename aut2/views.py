@@ -169,30 +169,28 @@ def result(request):
                 print (res['zipcode'])
                 country=res['country']
                 print (res['country'])
+                emails=res["emails"][0]   
+                print (res["emails"][0])
+                dom=res['domain_name']
+                print (res['domain_name'])                
             except:
                 name="Not Found"
                 org="Not Found"
                 add="Not Found"
                 city="Not Found"
                 state="Not Found"
-                zip="Not Found"
+                ziip="Not Found"
                 country="Not Found"
-            try: 
-                emails=res["emails"][0]   
-                print (res["emails"][0])
-                dom=res['domain_name']
-                print (res['domain_name'])
-            except:
                 emails="Not Found"   
                 dom="Not Found"
-
-                
+            
+                      
             return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':name,
                 'org':org,
                 'add':add,
                 'city':city,
                 'state':state,
-                'zip':zip,
+                'ziip':zip,
                 'country':country,'emails':emails,
                 'dom':dom})
         else:
