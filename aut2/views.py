@@ -151,7 +151,7 @@ def result(request):
             # directly called encode method of JSON
             print (JSONEncoder().encode(final_entity)) 
             import whois
-            url="http://ord-amazsn.com"
+            url=text
             res=whois.whois(url)
             #print (res)
             try:
