@@ -42,7 +42,7 @@ def home(request):
     return render(request,'home.html')
 
 def result(request):
-    try:
+        """try:"""
         #nm=request.GET['url']
     
         text=request.GET['url']
@@ -122,40 +122,51 @@ def result(request):
                 else:
                     eleventhval=-1
             except:
-                aburl=1
+                aburl=-1
                 eleventhval=-1   
 
-            if aburl==1:
+            if aburl==-1:
                 twelthval=-1
             else:
-                twelthval=1    
+                twelthval=1 
+            import urllib.request, sys, re
+            import xmltodict, json
+
+            try:
+                xml = urllib.request.urlopen('http://data.alexa.com/data?cli=10&dat=s&url={}'.format(text)).read()
+
+                result= xmltodict.parse(xml)
+
+                data = json.dumps(result).replace("@","")
+                data_tojson = json.loads(data)
+                url = data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["URL"]
+                rank= int(data_tojson["ALEXA"]["SD"][1]["POPULARITY"]["TEXT"])
+                print ("rank",rank)
+                if rank<=100000:
+                    thirt=1
+                else:
+                    thirt=-1
+                print (thirt)    
+            except:
+                thirt=-1 
+                rank="Not Indexed by Alexa"
+                print (rank)                  
 
 
 
 
-            filename = 'phish_trainedv0.sav'
+            filename = 'phish_trainedv3.sav'
 
             loaded_model = joblib.load(filename)
 
-            arg=loaded_model.predict(([[oneval,secval,thirdval,fourthval,fifthval,sixthval,seventhval,eighthval,ninthval,tenthval,eleventhval,twelthval]]))
+            arg=loaded_model.predict(([[oneval,secval,thirdval,fourthval,fifthval,seventhval,eighthval,ninthval,tenthval,eleventhval,twelthval,thirt]]))
             print (arg[0])
-            if arg[0]==1:
-                te="Legitimate"
-            else:
-                te="Malicious"  
-            if arg[0] == 1:
-                mal = True
-            else:
-                mal = False      
-            from json.encoder import JSONEncoder
-            final_entity = { "predicted_argument": [int(arg[0])]}
-            # directly called encode method of JSON
-            print (JSONEncoder().encode(final_entity)) 
             import whois
             url=text
-            res=whois.whois(url)
+            
             #print (res)
             try:
+                res=whois.whois(url)
                 name=res["name"]
                 print (res["name"])
                 org=res['org']
@@ -166,7 +177,7 @@ def result(request):
                 print (res['city'])
                 state=res['state']
                 print (res['state'])
-                zip=res['zipcode']
+                ziip=res['zipcode']
                 print (res['zipcode'])
                 country=res['country']
                 print (res['country'])
@@ -184,20 +195,38 @@ def result(request):
                 country="Not Found"
                 emails="Not Found"   
                 dom="Not Found"
+
+            if dom=="Not Found" and rank=="Not Indexed by Alexa" :
+                arg[0]=-1
+                #phishing
+
+            if arg[0]==1:
+                te="Legitimate"
+            else:
+                te="Malicious"  
+            if arg[0] == 1:
+                mal = True
+            else:
+                mal = False      
+            from json.encoder import JSONEncoder
+            final_entity = { "predicted_argument": [int(arg[0])]}
+            # directly called encode method of JSON
+            print (JSONEncoder().encode(final_entity)) 
             
-                      
+            print (dom,rank)
+                     
             return render(request,'result.html',{'result':'Real-time analysis successfull','f2':te,'mal': mal,'text':text,'name':name,
-                'org':org,
-                'add':add,
-                'city':city,
-                'state':state,
-                'ziip':zip,
-                'country':country,'emails':emails,
-                'dom':dom})
+                    'org':org,
+                    'add':add,
+                    'city':city,
+                    'state':state,
+                    'ziip':ziip,
+                    'country':country,'emails':emails,
+                    'dom':dom,'rank':rank})
         else:
             return render(request,'errorpage.html')  
-    except:
-        return render(request,'errorpage.html')          
+        """except:
+        return render(request,'errorpage.html')  """        
             
 def about(request):
     return render(request,'about.html')    
