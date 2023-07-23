@@ -112,7 +112,7 @@ sklearn==0.0
 smart-open==1.9.0
 soupsieve==1.9.5
 spacy==2.2.2
-sqlparse==0.3.0
+sqlparse==0.4.4
 srsly==0.2.0
 terminado==0.8.3
 testpath==0.4.4
